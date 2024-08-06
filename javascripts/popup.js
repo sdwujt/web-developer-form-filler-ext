@@ -77,6 +77,7 @@ function renderSets(sets) {
 
         newRow.append('<td class="submit ' + (isChecked ? 'active' : '') + '">' + submitHtml + '</td>');
         newRow.append('<td class="remove"><i class="icon-trash"></i></td>');
+        newRow.append('<td class="edit"><i class="icon-edit"></i></td>');
         newRow.append('<td class="export"><i class="icon-share-alt"></i></td>');
 
         var hotkey = set.hotkey;
@@ -98,7 +99,7 @@ function renderAdditionalInfo(sets) {
         var row = table.find('tr[data-key=' + set.key + ']');
         var substrHref = set.url.length > 40 ? set.url.substring(0, 40) + '...' : set.url;
         row.append('<td class="url"><a target="_blank" href="' + set.url + '">' + substrHref + '</a></td>');
-        row.find('td.restore').addClass('disabled').find('i').remove();
+        row.find('td.restore').find('i').remove();
     }
 }
 
@@ -302,7 +303,7 @@ $(document).ready(function () {
 		refreshSetsList(tab_url);
     });
 
-    sets.on("click", 'td.export', function (event) {
+    sets.on("click", 'td.edit', function (event) {
         var exportBlock = $('#exportBlock');
 
         if (exportBlock.is(':visible')) {
@@ -318,6 +319,7 @@ $(document).ready(function () {
         td.addClass('active');
         exportBlock.show();
 
+        exportBlock.find('#editSetID').val(key);
         exportBlock.find('#txtFormJson').val(formJson).focus().select();
     });
     
@@ -390,7 +392,33 @@ $(document).ready(function () {
     $('#btnHotkeyCancel').click(function () {
         $('#hotkeyBlock').hide();
     });
-        
+
+    $('#btnExportSave').click(function () {
+        var json = $('#txtFormJson').val();
+        var setID = $('#editSetID').val();
+
+        try {
+            var importedForm = JSON.parse(json);
+
+            if (!importedForm.url || !importedForm.content || !importedForm.name) {
+                throw new Error("Invalid JSON format");
+            }
+
+            if (importedForm.url === '*'){
+                importedForm.name += '-global';
+            }
+
+            localStorage.setItem(setID, JSON.stringify(importedForm));
+
+        }
+        catch (err) {
+            alert('Got an error: ' + err.message);
+        }
+
+        refreshSetsList(tab_url);
+        $('#exportBlock').hide();
+    });
+
     $('#btnExportClose').click(function () {
         $('#exportBlock').hide();
     });

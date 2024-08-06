@@ -68,18 +68,14 @@
                     <th></th>
                     <th>Set Name</th>
                     <th>SubmitForm</th>
-                    <th></th>
-                    <th>Export</th>
+                    <th>Remove</th>
+                    <th>Edit</th>
                     <th>Hotkey</th>
                 </tr>
             </thead>
             <tbody>
             </tbody>
         </table>
-
-        <div class="text-center donatelink" style="color:#c91d1d;">
-            <span>if you like the extension you can <a style="cursor: pointer">buy me a beer</a></span>
-        </div>
 
         <div class="text-center" id="donate" style="display: none;color:#c91d1d;">
             <br />
@@ -106,12 +102,12 @@
                 </div>
             </div>
         </div>
-        
 
-        <div id="exportBlock" class="block" style="display: none;">
-            <h4>Save or copy this json to export:</h4>
+        <div id="exportBlock" class="block" style="display: none;margin-bottom: 10px;">
             <div class="form-inline text-left ">
-                <textarea id="txtFormJson"></textarea>
+                <textarea id="txtFormJson" rows="9" style="margin-bottom: 5px;"></textarea>
+                <input type="hidden" id="editSetID" />
+                <button class="btn btn-primary" id="btnExportSave">Save</button>
                 <button class="btn" id="btnExportClose">Close</button>
             </div>
         </div>

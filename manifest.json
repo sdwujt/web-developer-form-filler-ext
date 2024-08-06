@@ -8,7 +8,7 @@
 				"matches" : [ "http://*/*", "https://*/*", "file:///*" ],
 				"run_at" : "document_start"
 				} ],
-	"name": "Web Developer Form Filler",
+	"name": "Web Developer Form Filler2",
 	"version": "1.0.11",
 	"icons" : { 
 			"16" :  "images/16.png",
