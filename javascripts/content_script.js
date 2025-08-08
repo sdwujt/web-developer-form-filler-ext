@@ -132,6 +132,8 @@ function replaceParameters (value)
         const { func, param1, param2 } = [...arguments].pop();
         
         switch (func) {
+            case 'timestamp':
+                return timestampGenerator(param1);
             case 'randomNumber':
                 return randomStringGenerator('0123456789', param1, param2);
             case 'randomAlpha':
@@ -140,6 +142,15 @@ function replaceParameters (value)
                 return randomStringGenerator('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', param1, param2);
         }
     });
+}
+
+function timestampGenerator(param1) {
+    if (param1) {
+        const time = new Date().getTime().toString();
+        return time.substring(time.length - param1, time.length);
+    } else {
+        return new Date().getTime();
+    }
 }
 
 function randomStringGenerator (pool, minLength, maxLength) {

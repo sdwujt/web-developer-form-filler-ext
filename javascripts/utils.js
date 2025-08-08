@@ -18,10 +18,10 @@ function fits(current, storage) {
         return url1.host === url2.host;
 
     } else if (value === FILTER_BY_PATH) {
-        return (url1.path) == (url2.path);
+        return (url1.path) === (url2.path) || RegExp(url2.path).test(url1.path);
         
     } else if (value === FILTER_BY_FULL) {
-        return current == storage;
+        return current === storage;
         
     } else {
         console.error('WebFormFiller: filter value is wrong: ' + value);

@@ -78,10 +78,6 @@ function renderSets(sets) {
         newRow.append('<td class="submit ' + (isChecked ? 'active' : '') + '">' + submitHtml + '</td>');
         newRow.append('<td class="remove"><i class="icon-trash"></i></td>');
         newRow.append('<td class="edit"><i class="icon-edit"></i></td>');
-        newRow.append('<td class="export"><i class="icon-share-alt"></i></td>');
-
-        var hotkey = set.hotkey;
-        newRow.append('<td class="hotkey">' + (hotkey ? hotkey : 'none') + '</a></td>');
 
         $('#sets').append(newRow);
     }
@@ -126,8 +122,8 @@ function setCurrentFilter() {
     var value = localStorage.getItem('filter');
     
     if (!value) {
-        localStorage.setItem('filter', FILTER_BY_FULL);
-        value = FILTER_BY_FULL;
+        localStorage.setItem('filter', FILTER_BY_PATH);
+        value = FILTER_BY_PATH;
     }
 
     var link = $('a.filter[id=' + value + ']');
@@ -241,8 +237,7 @@ $(document).ready(function () {
                 autoSubmit: false,
                 submitQuery: '',
                 content: obj.content,
-                name: key,
-                hotkey: ''
+                name: key
             };
 
             localStorage.setItem(key, JSON.stringify(setSettings));
@@ -323,23 +318,6 @@ $(document).ready(function () {
         exportBlock.find('#txtFormJson').val(formJson).focus().select();
     });
     
-    sets.on("click", 'td.hotkey', function (event) {
-        var hotkeyBlock = $('#hotkeyBlock');
-        
-        if (hotkeyBlock.is(':visible')) {
-            hotkeyBlock.hide();
-            return;
-        }
-        
-        var td = $(this);
-        var tr = td.parents('tr');
-        var value = getValue(tr, 'hotkey');
-
-        td.addClass('active');
-        hotkeyBlock.show();
-        hotkeyBlock.find('#txtHotkey').val(value).focus().select();
-    });
-    
     sets.on("click", 'td.setName', function (event) {
         var td = $(this);
         if (td.find('input').length) {
@@ -371,26 +349,6 @@ $(document).ready(function () {
         } else {
             saveValue(tr, 'name', value);
         }
-    });
-    
-    $('#hotkeyBlock').on("keyup", '#txtHotkey', function (e) {
-        var code = e.keyCode || e.which;
-        if (code == 13) { //Enter keycode
-            $('#btnHotkeySave').click();
-        }
-    });
-    
-    $('#btnHotkeySave').click(function() {
-        $('#hotkeyBlock').hide();
-        var tr = $('#sets td.hotkey.active').parents('tr');
-        var hotkey = $('#hotkeyBlock #txtHotkey').val();
-        saveValue(tr, 'hotkey', hotkey);
-        refreshSetsList(tab_url);
-        sendMessage({ "action": 'rebind' }, function(response) { });
-    });
-    
-    $('#btnHotkeyCancel').click(function () {
-        $('#hotkeyBlock').hide();
     });
 
     $('#btnExportSave').click(function () {
