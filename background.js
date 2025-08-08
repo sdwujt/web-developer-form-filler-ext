@@ -1,3 +1,9 @@
+// Import the necessary scripts
+importScripts(
+    "javascripts/parseuri.js",
+    "javascripts/utils.js"
+);
+
 function getHotkeys(url) {
     var sets = getSetsForCurrentUrl(url);
     var hotkeys = [];
